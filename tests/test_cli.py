@@ -52,7 +52,7 @@ def test_scan_reports_configured_fixture_source(tmp_path: Path, capsys):
     }
 
 
-def test_run_writes_review_doc_and_state(tmp_path: Path, capsys):
+def test_run_writes_review_doc_state_and_snapshot(tmp_path: Path, capsys):
     config_path = _write_cli_config(tmp_path)
 
     result = main(["run", "--config", str(config_path)])
@@ -61,6 +61,10 @@ def test_run_writes_review_doc_and_state(tmp_path: Path, capsys):
     assert result == 0
     assert Path(payload["review_doc"]).exists()
     assert (tmp_path / "state" / "last_run.json").exists()
+    snapshot_runs = list((tmp_path / "snapshot-repo" / "runs").glob("*"))
+    assert len(snapshot_runs) == 1
+    assert (snapshot_runs[0] / "after" / "进化建议与批注.md").exists()
+    assert (snapshot_runs[0] / "CHANGELOG.md").exists()
 
 
 def test_validate_rejects_broken_review_doc(tmp_path: Path, capsys):

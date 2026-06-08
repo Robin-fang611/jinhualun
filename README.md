@@ -14,7 +14,10 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 agent-evolve --help
-agent-evolve init-config --path agent-evolution.toml
+agent-evolve init --config agent-evolution.toml
+agent-evolve scan --config agent-evolution.toml
+agent-evolve run --config agent-evolution.toml
+agent-evolve validate --config agent-evolution.toml
 pytest
 ```
 
@@ -23,7 +26,25 @@ pytest
 - Raw chats are not stored.
 - Raw evidence files are not stored.
 - Generated state and review output are ignored by Git.
+- Review document writes create local before/after snapshots.
 - Global agent configuration files are not changed automatically.
+
+## Scheduling
+
+Windows:
+
+```powershell
+agent-evolve install-schedule --os windows --config .\agent-evolution.toml
+```
+
+macOS:
+
+```bash
+agent-evolve install-schedule --os mac --config ./agent-evolution.toml
+```
+
+Both scheduled entries call `agent-evolve catch-up`, so a missed run can be
+recovered after the machine starts again.
 
 ## Development
 

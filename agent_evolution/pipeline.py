@@ -6,6 +6,7 @@ from pathlib import Path
 
 from agent_evolution.models import AppConfig, Observation, ReviewNote, Suggestion
 from agent_evolution.review_docs import build_review_doc
+from agent_evolution.snapshots import snapshot_file_change
 from agent_evolution.sources import ClaudeCodeSource, CodexSource, GenericJsonlSource
 
 
@@ -44,9 +45,16 @@ def run(config: AppConfig) -> Path:
     suggestions, notes = build_suggestions(observations)
     config.workspace.review_root.mkdir(parents=True, exist_ok=True)
     review_doc = config.workspace.review_root / "进化建议与批注.md"
+    before_content = review_doc.read_bytes() if review_doc.exists() else None
     review_doc.write_text(
         build_review_doc("进化建议与批注", suggestions, notes),
         encoding="utf-8",
+    )
+    snapshot_file_change(
+        config.workspace.snapshot_repo,
+        review_doc,
+        before_content,
+        "write paired evolution suggestions",
     )
     return review_doc
 
