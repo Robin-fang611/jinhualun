@@ -14,6 +14,13 @@ class SourceConfig:
 
 
 @dataclass(frozen=True)
+class Observation:
+    source_type: str
+    role: str
+    text: str
+
+
+@dataclass(frozen=True)
 class WorkspaceConfig:
     review_root: Path
     snapshot_repo: Path

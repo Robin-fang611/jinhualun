@@ -1,0 +1,4 @@
+{"type":"response_item","item":{"role":"user","content":[{"type":"input_text","text":"Codex input text"}]}}
+{"type":"response_item","item":{"role":"assistant","content":[{"type":"output_text","text":"Ignored assistant output"}]}}
+{"type":"response_item","item":{"role":"user","content":"Codex string content"}}
+{"type":"response_item","item":{"role":"user","content":[{"type":"input_text","text":"   "}]}}

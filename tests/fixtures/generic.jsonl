@@ -1,0 +1,5 @@
+{"role":"user","text":"Generic text content"}
+this is not json
+{"role":"user","content":"Generic content field"}
+{"role":"user","text":"   "}
+{"text":"Missing role is ignored"}

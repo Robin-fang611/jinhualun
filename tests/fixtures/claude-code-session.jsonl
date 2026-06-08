@@ -1,0 +1,4 @@
+{"message":{"role":"user","content":"Claude string content"}}
+{"message":{"role":"assistant","content":"Ignored assistant content"}}
+{"message":{"role":"user","content":[{"type":"text","text":"Claude list content"}]}}
+{"message":{"role":"user","content":[{"type":"text","text":""}]}}
