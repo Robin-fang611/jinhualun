@@ -21,6 +21,26 @@ class Observation:
 
 
 @dataclass(frozen=True)
+class Suggestion:
+    title: str
+    author: str
+    created_at: str
+    target: str
+    risk_level: str
+    evolution_suggestion: str
+
+
+@dataclass(frozen=True)
+class ReviewNote:
+    author: str
+    created_at: str
+    judgment: str
+    reason: str
+    risk_level: str
+    handling_suggestion: str
+
+
+@dataclass(frozen=True)
 class WorkspaceConfig:
     review_root: Path
     snapshot_repo: Path
