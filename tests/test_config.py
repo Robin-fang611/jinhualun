@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import tomllib
 from pathlib import Path
 from uuid import uuid4
 
@@ -11,8 +12,15 @@ def test_write_default_config_then_load_config():
     config_path = workspace / "agent-evolution.toml"
 
     write_default_config(config_path)
+    raw_config = tomllib.loads(config_path.read_text(encoding="utf-8"))
     config = load_config(config_path)
 
+    assert set(raw_config["privacy"]) == {
+        "store_raw_messages",
+        "include_evidence_blocks",
+        "redact_local_paths",
+        "redact_private_contacts",
+    }
     assert config.workspace.review_root == workspace / "review"
     assert config.workspace.snapshot_repo == workspace / "snapshot-repo"
     assert config.workspace.state_dir == workspace / "state"
@@ -26,6 +34,7 @@ def test_write_default_config_then_load_config():
     assert config.privacy.redact_private_contacts is True
     assert config.schedule.interval_hours == 72
     assert config.schedule.catch_up_on_boot is True
+    assert isinstance(config.sources, tuple)
     assert [(source.name, source.path, source.enabled) for source in config.sources] == [
         ("codex", Path.home() / ".codex" / "sessions", True),
         ("claude-code", Path.home() / ".claude" / "projects", True),

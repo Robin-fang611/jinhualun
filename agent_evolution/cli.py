@@ -6,10 +6,7 @@ import argparse
 from pathlib import Path
 
 from agent_evolution import __version__
-from agent_evolution.config import (
-    DEFAULT_CONFIG_TOML,
-    write_default_config as write_default_config_file,
-)
+from agent_evolution.config import write_default_config as write_default_config_file
 
 
 def build_parser() -> argparse.ArgumentParser:

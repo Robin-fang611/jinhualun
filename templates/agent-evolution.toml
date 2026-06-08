@@ -16,9 +16,6 @@ store_raw_messages = false
 include_evidence_blocks = false
 redact_local_paths = true
 redact_private_contacts = true
-store_raw_chats = false
-store_raw_evidence = false
-auto_modify_global_agent_files = false
 
 [schedule]
 interval_hours = 72

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -15,37 +15,37 @@ class SourceConfig:
 
 @dataclass(frozen=True)
 class WorkspaceConfig:
-    review_root: Path = Path("./review")
-    snapshot_repo: Path = Path("./snapshot-repo")
-    state_dir: Path = Path("./state")
+    review_root: Path
+    snapshot_repo: Path
+    state_dir: Path
 
 
 @dataclass(frozen=True)
 class ModelConfig:
-    reflect_model: str = "deepseek-v4-pro"
-    review_model: str = "gpt-5.5"
-    base_url_env: str = "AGENT_EVOLUTION_BASE_URL"
-    api_key_env: str = "AGENT_EVOLUTION_API_KEY"
+    reflect_model: str
+    review_model: str
+    base_url_env: str
+    api_key_env: str
 
 
 @dataclass(frozen=True)
 class PrivacyConfig:
-    store_raw_messages: bool = False
-    include_evidence_blocks: bool = False
-    redact_local_paths: bool = True
-    redact_private_contacts: bool = True
+    store_raw_messages: bool
+    include_evidence_blocks: bool
+    redact_local_paths: bool
+    redact_private_contacts: bool
 
 
 @dataclass(frozen=True)
 class ScheduleConfig:
-    interval_hours: int = 72
-    catch_up_on_boot: bool = True
+    interval_hours: int
+    catch_up_on_boot: bool
 
 
 @dataclass(frozen=True)
 class AppConfig:
-    workspace: WorkspaceConfig = field(default_factory=WorkspaceConfig)
-    models: ModelConfig = field(default_factory=ModelConfig)
-    privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
-    schedule: ScheduleConfig = field(default_factory=ScheduleConfig)
-    sources: list[SourceConfig] = field(default_factory=list)
+    workspace: WorkspaceConfig
+    models: ModelConfig
+    privacy: PrivacyConfig
+    schedule: ScheduleConfig
+    sources: tuple[SourceConfig, ...]
