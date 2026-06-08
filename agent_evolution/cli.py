@@ -6,19 +6,10 @@ import argparse
 from pathlib import Path
 
 from agent_evolution import __version__
-
-
-DEFAULT_CONFIG_TOML = """# Agent Evolution Kit configuration
-
-[privacy]
-store_raw_chats = false
-store_raw_evidence = false
-auto_modify_global_agent_files = false
-
-[output]
-state_dir = "state"
-review_dir = "review"
-"""
+from agent_evolution.config import (
+    DEFAULT_CONFIG_TOML,
+    write_default_config as write_default_config_file,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -58,7 +49,7 @@ def write_default_config(args: argparse.Namespace) -> int:
     if config_path.exists() and not args.force:
         raise SystemExit(f"{config_path} already exists; pass --force to overwrite.")
 
-    config_path.write_text(DEFAULT_CONFIG_TOML, encoding="utf-8")
+    write_default_config_file(config_path)
     print(f"Wrote {config_path}")
     return 0
 

@@ -1,0 +1,40 @@
+# Agent Evolution Kit configuration
+
+[workspace]
+review_root = "./review"
+snapshot_repo = "./snapshot-repo"
+state_dir = "./state"
+
+[models]
+reflect_model = "deepseek-v4-pro"
+review_model = "gpt-5.5"
+base_url_env = "AGENT_EVOLUTION_BASE_URL"
+api_key_env = "AGENT_EVOLUTION_API_KEY"
+
+[privacy]
+store_raw_messages = false
+include_evidence_blocks = false
+redact_local_paths = true
+redact_private_contacts = true
+store_raw_chats = false
+store_raw_evidence = false
+auto_modify_global_agent_files = false
+
+[schedule]
+interval_hours = 72
+catch_up_on_boot = true
+
+[[sources]]
+name = "codex"
+path = "~/.codex/sessions"
+enabled = true
+
+[[sources]]
+name = "claude-code"
+path = "~/.claude/projects"
+enabled = true
+
+[[sources]]
+name = "generic-jsonl"
+path = "./sample-history"
+enabled = false
