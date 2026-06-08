@@ -57,6 +57,8 @@ def contains_forbidden_content(text: str) -> bool:
     return (
         _RAW_EVIDENCE_RE.search(text) is not None
         or _contains_unredacted_secret(text)
+        or _WINDOWS_USER_PATH_RE.search(text) is not None
+        or _MACOS_USER_PATH_RE.search(text) is not None
         or _CODE_AFTER_LABEL_RE.search(text) is not None
         or _CODE_BEFORE_LABEL_RE.search(text) is not None
     )

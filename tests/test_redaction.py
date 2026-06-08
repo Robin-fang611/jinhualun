@@ -52,6 +52,11 @@ def test_contains_forbidden_content_detects_raw_evidence_markers():
     assert contains_forbidden_content("Raw evidence: private text") is True
 
 
+def test_contains_forbidden_content_detects_user_paths():
+    assert contains_forbidden_content(r"C:\Users\alice\project") is True
+    assert contains_forbidden_content("/Users/bob/project") is True
+
+
 def test_contains_forbidden_content_detects_secrets_and_codes():
     assert contains_forbidden_content("secret=fake_secret_value") is True
     assert contains_forbidden_content("OTP 123456") is True
