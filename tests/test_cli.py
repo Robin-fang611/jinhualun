@@ -2,16 +2,24 @@ from __future__ import annotations
 
 import tomllib
 from pathlib import Path
+from uuid import uuid4
+
+import pytest
 
 from agent_evolution.cli import main
 
 
-def test_init_config_writes_privacy_safe_defaults():
-    state_dir = Path("state")
-    state_dir.mkdir(exist_ok=True)
-    config_path = state_dir / "test-agent-evolution.toml"
+@pytest.fixture
+def tmp_path() -> Path:
+    temp_dir = Path.cwd() / f"pytest-cache-files-{uuid4().hex}"
+    temp_dir.mkdir()
+    return temp_dir
 
-    result = main(["init-config", "--path", str(config_path), "--force"])
+
+def test_init_config_writes_privacy_safe_defaults(tmp_path):
+    config_path = tmp_path / "agent-evolution.toml"
+
+    result = main(["init-config", "--path", str(config_path)])
 
     assert result == 0
     config = tomllib.loads(config_path.read_text(encoding="utf-8"))
