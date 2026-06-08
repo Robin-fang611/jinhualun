@@ -11,6 +11,8 @@ state/
 review/
 snapshot-repo/
 runs/
+work/
+outputs/
 *.jsonl
 *.sqlite
 *.db
