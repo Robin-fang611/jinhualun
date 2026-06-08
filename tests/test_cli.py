@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import tomllib
 from pathlib import Path
 
@@ -134,6 +136,18 @@ def test_help_command_does_not_fail(capsys):
 
     assert result == 0
     assert "Privacy-safe CLI" in capsys.readouterr().out
+
+
+def test_module_execution_displays_help():
+    result = subprocess.run(
+        [sys.executable, "-m", "agent_evolution.cli", "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert "Privacy-safe CLI" in result.stdout
 
 
 def _write_cli_config(tmp_path: Path) -> Path:
