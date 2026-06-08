@@ -1,0 +1,16 @@
+.env
+.env.*
+__pycache__/
+*.pyc
+.pytest_cache/
+pytest-cache-files-*/
+dist/
+build/
+*.egg-info/
+state/
+review/
+snapshot-repo/
+runs/
+*.jsonl
+*.sqlite
+*.db
