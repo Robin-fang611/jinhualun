@@ -22,6 +22,26 @@ def test_redact_text_replaces_secret_assignments():
     assert "fake" not in redacted
 
 
+def test_redact_text_replaces_common_secret_formats():
+    text = (
+        '"token": "fake_token_value"\n'
+        '"api_key": "fake-api-key-value"\n'
+        "OPENAI_API_KEY=sk-testvalue\n"
+        "SERVICE_TOKEN=fake-token\n"
+        "Authorization: Bearer fake_token"
+    )
+
+    redacted = redact_text(text)
+
+    assert '"token": [REDACTED_SECRET]' in redacted
+    assert '"api_key": [REDACTED_SECRET]' in redacted
+    assert "OPENAI_API_KEY=[REDACTED_SECRET]" in redacted
+    assert "SERVICE_TOKEN=[REDACTED_SECRET]" in redacted
+    assert "Authorization: Bearer [REDACTED_SECRET]" in redacted
+    assert "fake" not in redacted
+    assert "sk-testvalue" not in redacted
+
+
 def test_redact_text_replaces_user_paths():
     text = (
         r"Windows path C:\Users\alice\project\notes.md "
@@ -59,11 +79,20 @@ def test_contains_forbidden_content_detects_user_paths():
 
 def test_contains_forbidden_content_detects_secrets_and_codes():
     assert contains_forbidden_content("secret=fake_secret_value") is True
+    assert contains_forbidden_content('"token": "fake_token_value"') is True
+    assert contains_forbidden_content('"api_key": "fake-api-key-value"') is True
+    assert contains_forbidden_content("OPENAI_API_KEY=sk-testvalue") is True
+    assert contains_forbidden_content("SERVICE_TOKEN=fake-token") is True
+    assert contains_forbidden_content("Authorization: Bearer fake_token") is True
     assert contains_forbidden_content("OTP 123456") is True
     assert contains_forbidden_content("验证码：9876") is True
 
 
 def test_contains_forbidden_content_allows_sanitized_summary():
-    text = "Summary uses [REDACTED_SECRET] and release year 2026."
+    text = (
+        "Summary uses [REDACTED_SECRET], "
+        "OPENAI_API_KEY=[REDACTED_SECRET], "
+        "and Authorization: Bearer [REDACTED_SECRET] in release year 2026."
+    )
 
     assert contains_forbidden_content(text) is False
